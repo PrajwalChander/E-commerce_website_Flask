@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+{% endblock %}
+{% block content %}
+    <h1>Cart</h1>
+    {% if cart_items %}
+        <table class="product-table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                    <tr>
+                        <td>{{ item[1] }}</td>
+                        <td>{{ item[2] }}</td>
+                        <td>
+                            <form action="/update-cart" method="POST">
+                                <input type="hidden" name="cart_id" value="{{ item[0] }}">
+                                <input type="number" name="quantity" value="{{ item[3] }}" min="1" max="100" value="1">
+                                <button type="submit" class="button button-edit">Update</button>
+                            </form>
+                        </td>
+                        <td>{{ item[2] * item[3] }}</td>
+                        <td>
+                            <a href="/remove-from-cart/{{ item[0] }}" class="button button-danger">Remove</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+     <div class="cart-total">
+    <p>Total: {{ total_value }}</p>
+</div>
+
+    {% else %}
+        <h2 class="empty-cart">Your cart is empty...!
+            <br>Go Shopping</h2>
+        <a class="button button-primary" href="/dashboard">Dashboard</a>
+    {% endif %}
+{% endblock %}

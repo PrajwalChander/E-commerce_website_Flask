@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Edit Product</h2>
+
+  <form method="POST" action="/product/edit/{{ product[0] }}">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" class="form-control" value="{{ product[1] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" class="form-control" required>{{ product[2] }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" class="form-control" step="0.01" value="{{ product[3] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <select id="category" name="category" class="form-control" required>
+                <option value="Electronics" {% if product[4] == 'Electronics' %}selected{% endif %}>Electronics</option>
+                <option value="Clothing" {% if product[4] == 'Clothing' %}selected{% endif %}>Clothing</option>
+                <option value="Home & Kitchen" {% if product[4] == 'Home & Kitchen' %}selected{% endif %}>Home & Kitchen</option>
+                <!-- Add more categories as needed -->
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+
+{% endblock %}
